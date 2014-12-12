@@ -30,7 +30,7 @@ github:
 
 ## CAGEr
 
-We will be using the CAGEr package, so we need to install it first. While we are at it, let's download some FANTOM3 and FANTOM4 CAGE data: 
+We will be using the CAGEr package, so we need to install it. While we're at it, we can download/install some FANTOM3 and FANTOM4 CAGE data:
 
 ```
 source("http://bioconductor.org/biocLite.R")
@@ -77,5 +77,3 @@ image(matrix(rnorm(100),nrow=10))
 ```
 
 ![plot of chunk unnamed-chunk-3](assets/fig/unnamed-chunk-3-1.png) 
-
-
