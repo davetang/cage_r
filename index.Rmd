@@ -1,6 +1,6 @@
 ---
 title       : Analysing CAGE data using R
-subtitle    : Modhep workshop
+subtitle    : MODHEP workshop
 author      : Dave Tang
 job         : PhD candidate
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
