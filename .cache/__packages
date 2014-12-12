@@ -1,0 +1,13 @@
+base
+BiocInstaller
+BiocGenerics
+S4Vectors
+IRanges
+GenomeInfoDb
+GenomicRanges
+XVector
+Biostrings
+rtracklayer
+BSgenome
+CAGEr
+FANTOM3and4CAGE
