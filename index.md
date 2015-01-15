@@ -143,6 +143,52 @@ library(CAGEr)
 
 ---
 
+## The need for normalisation
+
+> 1. Local regression (loess)
+> 2. Quantile normalisation
+> 3. Counts per million
+> 4. RLE
+
+---
+
+## Genomic ranges
+
+
+```r
+library(IRanges)
+ir <- IRanges(5,10)
+ir
+start(ir)
+end(ir)
+width(ir)
+```
+
+---
+
+## Statistical significance of feature overlaps
+
+Check out my blog post <http://davetang.org/muse/2014/11/07/using-genometricorr-package/>
+
+
+```r
+install.packages('GenometriCorr',
+                 repos='http://genometricorr.sourceforge.net/R/',
+                 type='source')
+
+cpg <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/cpg.bed"),
+                  header=F,
+                  sep="\t",
+                  stringsAsFactors = F)
+
+chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.bed"),
+                  header=F,
+                  sep="\t",
+                  stringsAsFactors = F)
+```
+
+---
+
 ## Random heatmap
 
 
@@ -151,7 +197,7 @@ set.seed(31)
 image(matrix(rnorm(100),nrow=10))
 ```
 
-![plot of chunk unnamed-chunk-5](assets/fig/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-7](assets/fig/unnamed-chunk-7-1.png) 
 
 ---
 

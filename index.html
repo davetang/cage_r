@@ -235,6 +235,65 @@ biocLite(&quot;CAGEr&quot;)
 
 <slide class="" id="slide-12" style="background:;">
   <hgroup>
+    <h2>The need for normalisation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol class = "build incremental">
+<li>Local regression (loess)</li>
+<li>Quantile normalisation</li>
+<li>Counts per million</li>
+<li>RLE</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>Genomic ranges</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(IRanges)
+ir &lt;- IRanges(5,10)
+ir
+start(ir)
+end(ir)
+width(ir)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Statistical significance of feature overlaps</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Check out my blog post <a href="http://davetang.org/muse/2014/11/07/using-genometricorr-package/">http://davetang.org/muse/2014/11/07/using-genometricorr-package/</a></p>
+
+<pre><code class="r">install.packages(&#39;GenometriCorr&#39;,
+                 repos=&#39;http://genometricorr.sourceforge.net/R/&#39;,
+                 type=&#39;source&#39;)
+
+cpg &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/cpg.bed&quot;),
+                  header=F,
+                  sep=&quot;\t&quot;,
+                  stringsAsFactors = F)
+
+chr &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.bed&quot;),
+                  header=F,
+                  sep=&quot;\t&quot;,
+                  stringsAsFactors = F)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
     <h2>Random heatmap</h2>
   </hgroup>
   <article data-timings="">
@@ -242,13 +301,13 @@ biocLite(&quot;CAGEr&quot;)
 image(matrix(rnorm(100),nrow=10))
 </code></pre>
 
-<p><img src="assets/fig/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5"> </p>
+<p><img src="assets/fig/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-13" style="background:;">
+<slide class="" id="slide-16" style="background:;">
   <hgroup>
     <h2>Clustering</h2>
   </hgroup>
@@ -259,7 +318,7 @@ image(matrix(rnorm(100),nrow=10))
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-14" style="background:;">
+<slide class="" id="slide-17" style="background:;">
   <hgroup>
     <h2>Formula</h2>
   </hgroup>
@@ -270,7 +329,7 @@ image(matrix(rnorm(100),nrow=10))
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-15" style="background:;">
+<slide class="" id="slide-18" style="background:;">
   <hgroup>
     <h2>Getting help in R</h2>
   </hgroup>
@@ -285,7 +344,7 @@ apropos(&#39;table&#39;)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-16" style="background:;">
+<slide class="" id="slide-19" style="background:;">
   <hgroup>
     <h2>To be continued</h2>
   </hgroup>
@@ -367,32 +426,50 @@ apropos(&#39;table&#39;)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=12 title='Random heatmap'>
+        data-slide=12 title='The need for normalisation'>
          12
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='Clustering'>
+        data-slide=13 title='Genomic ranges'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='Formula'>
+        data-slide=14 title='Statistical significance of feature overlaps'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='Getting help in R'>
+        data-slide=15 title='Random heatmap'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='To be continued'>
+        data-slide=16 title='Clustering'>
          16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='Formula'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Getting help in R'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='To be continued'>
+         19
       </a>
     </li>
   </ul>
