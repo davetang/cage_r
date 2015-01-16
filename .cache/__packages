@@ -11,3 +11,6 @@ rtracklayer
 BSgenome
 CAGEr
 FANTOM3and4CAGE
+gplots
+limma
+edgeR

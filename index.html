@@ -47,6 +47,8 @@
     <slide class="" id="slide-1" style="background:;">
   <article data-timings="">
     <!-- to publish run
+library(slidify)
+setwd("slidify_test")
 publish('cage_r', 'davetang')
 -->
 
@@ -73,17 +75,14 @@ publish('cage_r', 'davetang')
     <h2>I will be talking about</h2>
   </hgroup>
   <article data-timings="">
-    <ol class = "build incremental">
+    <ul class = "build incremental">
 <li>Cap Analysis Gene Expression</li>
-<li>Using R and Bioconductor packages to analyse CAGE data, in particular:
-
-<ul>
+<li>Using R and Bioconductor packages to analyse CAGE data, in particular:</li>
 <li>Estimating statistical significance of feature overlaps</li>
 <li>Exploratory data analysis using R</li>
 <li>Data normalisation and differential expression analysis</li>
 <li>Visualising high-throughput sequencing data</li>
-</ul></li>
-</ol>
+</ul>
 
   </article>
   <!-- Presenter Notes -->
@@ -200,15 +199,6 @@ lung_group &lt;- FANTOMtissueCAGEhuman[[&quot;lung&quot;]]
 head(lung_group)
 </code></pre>
 
-<pre><code>##    chr    pos strand RCB-0702_WI-38 RCB-0098_A549 RCB-0465_Lu-130 lung
-## 1 chr1 558799      +              0             1               0    0
-## 2 chr1 559777      +              0             1               0    0
-## 3 chr1 703878      -              0             1               0    0
-## 4 chr1 703904      -              0             0               1    0
-## 5 chr1 752741      -              0             0               1    0
-## 6 chr1 752754      -              0             0               1    0
-</code></pre>
-
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -238,12 +228,26 @@ biocLite(&quot;CAGEr&quot;)
     <h2>The need for normalisation</h2>
   </hgroup>
   <article data-timings="">
-    <ol class = "build incremental">
-<li>Local regression (loess)</li>
-<li>Quantile normalisation</li>
-<li>Counts per million</li>
-<li>RLE</li>
-</ol>
+    <pre><code class="r">control_1 &lt;- rep(10, 50)
+control_2 &lt;- rep(10, 50)
+patient_1 &lt;- c(rep(20, 25),rep(0,25))
+patient_2 &lt;- c(rep(20, 25),rep(0,25))
+df &lt;- data.frame(c1=control_1, c2=control_2, p1=patient_1, p2=patient_2)
+head(df, 2)
+</code></pre>
+
+<pre><code>##   c1 c2 p1 p2
+## 1 10 10 20 20
+## 2 10 10 20 20
+</code></pre>
+
+<pre><code class="r">tail(df, 2)
+</code></pre>
+
+<pre><code>##    c1 c2 p1 p2
+## 49 10 10  0  0
+## 50 10 10  0  0
+</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -251,22 +255,105 @@ biocLite(&quot;CAGEr&quot;)
 
 <slide class="" id="slide-13" style="background:;">
   <hgroup>
-    <h2>Genomic ranges</h2>
+    <h2>The need for normalisation</h2>
   </hgroup>
   <article data-timings="">
-    <pre><code class="r">library(IRanges)
-ir &lt;- IRanges(5,10)
-ir
-start(ir)
-end(ir)
-width(ir)
-</code></pre>
+    <p><img src="assets/fig/unnamed-chunk-6-1.png" alt="plot of chunk unnamed-chunk-6"> </p>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
 <slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>Differential expression without normalisation</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(edgeR)
+group &lt;- c(&#39;control&#39;,&#39;control&#39;,&#39;patient&#39;,&#39;patient&#39;)
+d &lt;- DGEList(counts=df, group=group)
+d &lt;- estimateCommonDisp(d)
+de &lt;- exactTest(d)
+table(p.adjust(de$table$PValue, method=&quot;BH&quot;)&lt;0.05)
+</code></pre>
+
+<pre><code>## 
+## TRUE 
+##   50
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>Differential expression with normalisation</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">TMM &lt;- calcNormFactors(d, method=&quot;TMM&quot;)
+TMM$samples
+</code></pre>
+
+<pre><code>##      group lib.size norm.factors
+## c1 control      500    0.7071068
+## c2 control      500    0.7071068
+## p1 patient      500    1.4142136
+## p2 patient      500    1.4142136
+</code></pre>
+
+<pre><code class="r">TMM &lt;- estimateCommonDisp(TMM)
+TMM &lt;- exactTest(TMM)
+table(p.adjust(TMM$table$PValue, method=&quot;BH&quot;)&lt;0.05)
+</code></pre>
+
+<pre><code>## 
+## FALSE  TRUE 
+##    25    25
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>Genomic ranges</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">library(IRanges)
+ir &lt;- IRanges(5,10)
+ir
+</code></pre>
+
+<pre><code>## IRanges of length 1
+##     start end width
+## [1]     5  10     6
+</code></pre>
+
+<pre><code class="r">start(ir)
+</code></pre>
+
+<pre><code>## [1] 5
+</code></pre>
+
+<pre><code class="r">end(ir)
+</code></pre>
+
+<pre><code>## [1] 10
+</code></pre>
+
+<pre><code class="r">width(ir)
+</code></pre>
+
+<pre><code>## [1] 6
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
   <hgroup>
     <h2>Statistical significance of feature overlaps</h2>
   </hgroup>
@@ -292,22 +379,7 @@ chr &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/hesc.c
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-15" style="background:;">
-  <hgroup>
-    <h2>Random heatmap</h2>
-  </hgroup>
-  <article data-timings="">
-    <pre><code class="r">set.seed(31)
-image(matrix(rnorm(100),nrow=10))
-</code></pre>
-
-<p><img src="assets/fig/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"> </p>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-16" style="background:;">
+<slide class="" id="slide-18" style="background:;">
   <hgroup>
     <h2>Clustering</h2>
   </hgroup>
@@ -318,7 +390,7 @@ image(matrix(rnorm(100),nrow=10))
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-17" style="background:;">
+<slide class="" id="slide-19" style="background:;">
   <hgroup>
     <h2>Formula</h2>
   </hgroup>
@@ -329,7 +401,7 @@ image(matrix(rnorm(100),nrow=10))
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-18" style="background:;">
+<slide class="" id="slide-20" style="background:;">
   <hgroup>
     <h2>Getting help in R</h2>
   </hgroup>
@@ -344,7 +416,7 @@ apropos(&#39;table&#39;)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-19" style="background:;">
+<slide class="" id="slide-21" style="background:;">
   <hgroup>
     <h2>To be continued</h2>
   </hgroup>
@@ -432,44 +504,56 @@ apropos(&#39;table&#39;)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='Genomic ranges'>
+        data-slide=13 title='The need for normalisation'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='Statistical significance of feature overlaps'>
+        data-slide=14 title='Differential expression without normalisation'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='Random heatmap'>
+        data-slide=15 title='Differential expression with normalisation'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='Clustering'>
+        data-slide=16 title='Genomic ranges'>
          16
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=17 title='Formula'>
+        data-slide=17 title='Statistical significance of feature overlaps'>
          17
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=18 title='Getting help in R'>
+        data-slide=18 title='Clustering'>
          18
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=19 title='To be continued'>
+        data-slide=19 title='Formula'>
          19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Getting help in R'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='To be continued'>
+         21
       </a>
     </li>
   </ul>

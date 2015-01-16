@@ -15,6 +15,8 @@ github:
 ---
 
 <!-- to publish run
+library(slidify)
+setwd("slidify_test")
 publish('cage_r', 'davetang')
 -->
 
@@ -34,12 +36,12 @@ publish('cage_r', 'davetang')
 
 ## I will be talking about
 
-> 1. Cap Analysis Gene Expression
-> 2. Using R and Bioconductor packages to analyse CAGE data, in particular:
- * Estimating statistical significance of feature overlaps
- * Exploratory data analysis using R
- * Data normalisation and differential expression analysis
- * Visualising high-throughput sequencing data
+> * Cap Analysis Gene Expression
+> * Using R and Bioconductor packages to analyse CAGE data, in particular:
+> * Estimating statistical significance of feature overlaps
+> * Exploratory data analysis using R
+> * Data normalisation and differential expression analysis
+> * Visualising high-throughput sequencing data
 
 ---
 
@@ -112,16 +114,6 @@ lung_group <- FANTOMtissueCAGEhuman[["lung"]]
 head(lung_group)
 ```
 
-```
-##    chr    pos strand RCB-0702_WI-38 RCB-0098_A549 RCB-0465_Lu-130 lung
-## 1 chr1 558799      +              0             1               0    0
-## 2 chr1 559777      +              0             1               0    0
-## 3 chr1 703878      -              0             1               0    0
-## 4 chr1 703904      -              0             0               1    0
-## 5 chr1 752741      -              0             0               1    0
-## 6 chr1 752754      -              0             0               1    0
-```
-
 ---
 
 ## CAGEr
@@ -145,10 +137,87 @@ library(CAGEr)
 
 ## The need for normalisation
 
-> 1. Local regression (loess)
-> 2. Quantile normalisation
-> 3. Counts per million
-> 4. RLE
+
+```r
+control_1 <- rep(10, 50)
+control_2 <- rep(10, 50)
+patient_1 <- c(rep(20, 25),rep(0,25))
+patient_2 <- c(rep(20, 25),rep(0,25))
+df <- data.frame(c1=control_1, c2=control_2, p1=patient_1, p2=patient_2)
+head(df, 2)
+```
+
+```
+##   c1 c2 p1 p2
+## 1 10 10 20 20
+## 2 10 10 20 20
+```
+
+```r
+tail(df, 2)
+```
+
+```
+##    c1 c2 p1 p2
+## 49 10 10  0  0
+## 50 10 10  0  0
+```
+
+---
+
+## The need for normalisation
+
+![plot of chunk unnamed-chunk-6](assets/fig/unnamed-chunk-6-1.png) 
+
+---
+
+## Differential expression without normalisation
+
+
+```r
+library(edgeR)
+group <- c('control','control','patient','patient')
+d <- DGEList(counts=df, group=group)
+d <- estimateCommonDisp(d)
+de <- exactTest(d)
+table(p.adjust(de$table$PValue, method="BH")<0.05)
+```
+
+```
+## 
+## TRUE 
+##   50
+```
+
+---
+
+## Differential expression with normalisation
+
+
+```r
+TMM <- calcNormFactors(d, method="TMM")
+TMM$samples
+```
+
+```
+##      group lib.size norm.factors
+## c1 control      500    0.7071068
+## c2 control      500    0.7071068
+## p1 patient      500    1.4142136
+## p2 patient      500    1.4142136
+```
+
+```r
+TMM <- estimateCommonDisp(TMM)
+TMM <- exactTest(TMM)
+table(p.adjust(TMM$table$PValue, method="BH")<0.05)
+```
+
+```
+## 
+## FALSE  TRUE 
+##    25    25
+```
 
 ---
 
@@ -159,9 +228,36 @@ library(CAGEr)
 library(IRanges)
 ir <- IRanges(5,10)
 ir
+```
+
+```
+## IRanges of length 1
+##     start end width
+## [1]     5  10     6
+```
+
+```r
 start(ir)
+```
+
+```
+## [1] 5
+```
+
+```r
 end(ir)
+```
+
+```
+## [1] 10
+```
+
+```r
 width(ir)
+```
+
+```
+## [1] 6
 ```
 
 ---
@@ -186,18 +282,6 @@ chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.
                   sep="\t",
                   stringsAsFactors = F)
 ```
-
----
-
-## Random heatmap
-
-
-```r
-set.seed(31)
-image(matrix(rnorm(100),nrow=10))
-```
-
-![plot of chunk unnamed-chunk-7](assets/fig/unnamed-chunk-7-1.png) 
 
 ---
 
