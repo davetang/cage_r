@@ -187,7 +187,24 @@ NAGCAGCAGGGGAGAGTGTCATGGAGGCCTACGAGC
 BYZZY\\[\[^^IXMVUUUX\]\\X[ZZ\]``^__^
 ```
 
-We would remove this read because it contains an ambiguous base call.
+We would remove this read because it contains an ambiguous base call, especially since it's in the barcode. The quality scores range from 3 to 40:
+
+<pre>
+3------------------------------------40
+
+BCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefgh
+</pre>
+
+People define different criteria to remove reads, e.g. if there are 10 base calls that have a quality less than 10.
+
+---
+
+## Mapping
+
+> * High-throughput sequencing results in millions to billions of reads
+> * A computational strategy known as "indexing" speeds up mapping algorithms.
+> * It works like a book index; an index of a large DNA sequence allows one to rapidly find shorter sequences embedded within it. See [How to map billions of short reads onto genomes](http://www.ncbi.nlm.nih.gov/pubmed/19430453).
+> ![](figure/consensusClusters_expression_profiles_50.png)
 
 ---
 
