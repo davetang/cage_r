@@ -24,13 +24,32 @@ publish('cage_r', 'davetang')
 .title-slide {
   background-color: #FFFFFF;
 }
+
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
 </style>
 
 ## Welcome!
 
 > * My name is Dave Tang; I was born in Hong Kong but raised in Papua New Guinea.
 > * I'm a PhD candidate in bioinformatics at the VU University Amsterdam.
+> * I also maintain a [blog](http://davetang.org/muse), where I write about bioinformatics.
 > * I'm here to show you how to analyse CAGE data using R in Japan.
+
+---
+
+## About this presentation
+
+> * I had a lot of difficulty deciding what to present in this talk.
+> * I started off extremely ambiguous and believed that it is possible to show you how to analyse CAGE data in under two hours.
+> * I realised that this isn't possible.
+> * I finally decided that this presentation will be about the concepts of CAGE analysis and I will provide links on each slide for those who want to learn more.
 
 ---
 
@@ -40,15 +59,7 @@ publish('cage_r', 'davetang')
 > * Using R and Bioconductor packages to analyse CAGE data
 > * Estimating statistical significance of feature overlaps
 > * Data normalisation and differential expression analysis
-> * Visualising CAGE data
-
----
-
-## About this presentation
-
-> * I structured this presentation as if I'm presenting it to myself from five years ago (when I first started analysing CAGE data).
-> * Therefore, I assume that you don't know anything about CAGE or the analysis of CAGE data.
-> * Please interrupt me as soon as something is not clear! (Otherwise I'm not sure if I have enough material for two hours.)
+> * Data visualistion of CAGE data in R
 
 ---
 
@@ -91,8 +102,8 @@ Image source: me.
 > * The output of CAGE is a set of short nucleotide sequences and their counts.
 > * Typical steps in a CAGE analysis pipeline include:
 > * Tag extraction
-> * Quality control of tags
-> * Mapping CAGE tags to a reference genome
+> * Quality control steps
+> * Mapping tags to a reference genome
 > * Tag clustering
 > * Tag cluster annotation
 > * Data analysis (e.g. differential expression analysis, co-expression networks, etc.)
@@ -102,9 +113,51 @@ Image source: me.
 ## Why do we perform CAGE?
 
 > * Discover rare transcripts
-> * Quantify the expression of genes (especially comparing different conditions)
+> * Quantify the expression of transcripts
 > * Study promoter structure and usage
 > * Discover regulatory elements
+
+---
+
+## ENCODE CAGE data
+
+Download these BAM files into some directory:
+
+```
+path=http://hgdownload.cse.ucsc.edu/goldenPath/hg19/encodeDCC/wgEncodeRikenCage
+curl -O $path/wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz
+curl -O $path/wgEncodeRikenCageHelas3CellPapAlnRep1.bam
+curl -O $path/wgEncodeRikenCageHelas3CellPapAlnRep2.bam
+curl -O $path/wgEncodeRikenCageHelas3CytosolPapAlnRep1.bam
+curl -O $path/wgEncodeRikenCageHelas3CytosolPapAlnRep2.bam
+curl -O $path/wgEncodeRikenCageHelas3NucleusPapAlnRep1.bam
+curl -O $path/wgEncodeRikenCageHelas3NucleusPapAlnRep2.bam
+```
+
+---
+
+## Raw CAGE data
+
+A fastq file contains all the reads from the sequencer.
+
+```
+gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | head -5
+```
+
+---
+
+## SAM/BAM
+
+A SAM/BAM file contains alignment information of a read to a reference genome.
+
+```
+samtools view wgEncodeRikenCageHelas3CellPapAlnRep1.bam | head -5
+HWUSI-EAS566_0009:3:16:8371:2418#0|TAG  16  chr1	16213	1	27M	*	0	0	GCCATGCTCTGACAGTCTCAGTTGCAC	fefffffffffffffdfefddffdddd	NM:i:0	MD:Z:27	XP:Z:~~~~-----000077777,,,,9998:
+HWUSI-EAS566_0007:5:11:4550:12891#0|TAG	16	chr1	16445	17	27M	*	0	0	AGTTTGAAAACCACTATTTTATGAACC	fefffffdffffffeffdffffeefff	NM:i:0	MD:Z:27	XP:Z:~~~~~~~~~~~~~~~~~~~~~~~LO?~
+HWUSI-EAS566_0007:5:63:12130:4370#0|TAG	0	chr1	16446	17	27M	*	0	0	GTTTGAAAACCACTATTTTATGAACCA	fffffdfffffdffffffffffefffe	NM:i:0	MD:Z:27	XP:Z:~~~~~~~~~~~~~~~~~~~~~~~~~L~
+HWUSI-EAS566_0007:5:107:18395:14990#0|TAG	16	chr1	16448	18	27M	*	0	0	TTGAAAACCACTATTTTATGAACCAAA	edcddbeeee`fdfffdaddaeeeeea	NM:i:1	MD:Z:26G	XP:Z:~~~~~~~~~~~~~~~~~~~~~~~B--J
+HWUSI-EAS566_0007:5:39:15300:6753#0|TAG	16	chr1	16580	1	27M	*	0	0	AAGGTGGCCTCAAAGAGCTGCTCCCAC	dffffffffeafffffffaffffdfef	NM:i:1	MD:Z:0C26	XP:Z:M9BC~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 ---
 
@@ -185,7 +238,27 @@ For more information: <http://davetang.org/muse/2013/04/16/cage-analysis-using-t
 
 ---
 
-## A SAM/BAM file
+## Loading BAM files
+
+First we need to set the working directory to where the BAM files are:
+
+```{r eval=FALSE}
+setwd("/Users/davetang/tmp/cage")
+bam_file <- list.files(".", full.names=T, pattern="*.bam")
+bam_file
+cage_bam <- new("CAGEset", genomeName = "BSgenome.Hsapiens.UCSC.hg19", inputFiles = bam_file, inputFilesType = 'bam', sampleLabels = c('cell_1','cell_2','cytosol_1','cytosol_2','nucleus_1','nucleus_2'))
+cage_bam
+```
+
+---
+
+## Tag clustering
+
+```{r eval=FALSE}
+getCTSS(cage_bam, mappingQualityThreshold=10)
+normalizeTagCount(cage_bam, method = "simpleTpm")
+clusterCTSS(object = cage_bam, threshold = 1, thresholdIsTpm = TRUE, nrPassThreshold = 1, method = "distclu", maxDist = 20, removeSingletons = TRUE, keepSingletonsAbove = 5, useMulticore = T, nrCores = 6)
+```
 
 ---
 
@@ -259,6 +332,13 @@ table(p.adjust(TMM$table$PValue, method="BH")<0.05)
 
 ## Genomic ranges
 
+> * The coordinate system for describing the location of features on a genome is through genomic ranges.
+> * A genomic range indicates the chromosome and position a particular feature is on. For example, HBA1 is on chr16:226650-227521.
+
+---
+
+## Genomic ranges in Bioconductor
+
 ```{r}
 library(IRanges)
 ir <- IRanges(5,10)
@@ -300,17 +380,11 @@ chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.
 
 ---
 
-## Clustering
+## Expression clustering
 
 ![](figure/consensusClusters_expression_profiles_50.png)
 
 ---
 
-## Visualisation
-
-<http://davetang.org/muse/2013/10/03/using-gviz/>
-
----
-
-## To be continued
+## Using BEDTools
 
