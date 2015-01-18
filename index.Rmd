@@ -443,6 +443,16 @@ chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.
 
 ---
 
+## Expression matrix
+
+See <http://davetang.org/muse/2012/01/31/creating-a-correlation-matrix-with-r/>
+
+<img src="figure/coexpression.png" alt="Co-expression" style="width: 700px;"/>
+
+Source: adpated from <http://www.ncbi.nlm.nih.gov/pubmed/20628352>.
+
+---
+
 ## Expression clustering
 
 ![](figure/consensusClusters_expression_profiles_50.png)
