@@ -1,5 +1,5 @@
 ---
-title       : Analysing CAGE data using R
+title       : CAGE data analysis
 subtitle    : MODHEP workshop
 author      : Dave Tang
 job         : PhD candidate
@@ -16,7 +16,7 @@ github:
 
 <!-- to publish run
 library(slidify)
-setwd("slidify_test")
+setwd("/Users/davetang/slidify_test/")
 publish('cage_r', 'davetang')
 -->
 
@@ -112,9 +112,9 @@ Image source: me.
 
 ## Why do we perform CAGE?
 
-> * Discover rare transcripts
 > * Quantify the expression of transcripts
 > * Study promoter structure and usage
+> * Discover new promoters
 > * Discover regulatory elements
 
 ---
@@ -138,11 +138,56 @@ curl -O $path/wgEncodeRikenCageHelas3NucleusPapAlnRep2.bam
 
 ## Raw CAGE data
 
-A fastq file contains all the reads from the sequencer.
+A [fastq](http://en.wikipedia.org/wiki/FASTQ_format) file contains all the reads from the sequencer.
 
 ```
-gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | head -5
+gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | head -4
+@HWUSI-EAS566_0007:5:1:965:4705#0/1
+NAGCAGCAGGGGAGAGTGTCATGGAGGCCTACGAGC
++HWUSI-EAS566_0007:5:1:965:4705#0/1
+BYZZY\\[\[^^IXMVUUUX\]\\X[ZZ\]``^__^
 ```
+
+For each read, there are four lines of information.
+
+1. The first line is the read name and contains information on the read
+2. The second line is the raw sequence of the CAGE tag
+3. The third line can be used to store optional notes
+4. The fourth line denotes the quality of each base call, i.e. how sure the machine is that an A is an A.
+
+---
+
+## Tag extraction
+
+```
+gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | head -4
+@HWUSI-EAS566_0007:5:1:965:4705#0/1
+NAGCAGCAGGGGAGAGTGTCATGGAGGCCTACGAGC
++HWUSI-EAS566_0007:5:1:965:4705#0/1
+BYZZY\\[\[^^IXMVUUUX\]\\X[ZZ\]``^__^
+
+gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | perl -nle 'if (($. - 2) % 4 == 0){ print substr($_,0,4)}' | sort | uniq -c | sort -k1,1rn | head -4
+25498964 TAGC
+288819 TATC
+154406 TCGT
+117149 CAGC
+```
+
+The barcode for this library was TAGC.
+
+---
+
+## Quality control
+
+```
+gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | head -4
+@HWUSI-EAS566_0007:5:1:965:4705#0/1
+NAGCAGCAGGGGAGAGTGTCATGGAGGCCTACGAGC
++HWUSI-EAS566_0007:5:1:965:4705#0/1
+BYZZY\\[\[^^IXMVUUUX\]\\X[ZZ\]``^__^
+```
+
+We would remove this read because it contains an ambiguous base call.
 
 ---
 
@@ -229,6 +274,7 @@ For more information: <http://davetang.org/muse/2013/04/16/cage-analysis-using-t
 
 ## What CAGEr can do
 
+> * Quality control steps
 > * CAGE normalisation
 > * CAGE tag clustering
 > * Analysis of promoter shape
@@ -244,6 +290,7 @@ First we need to set the working directory to where the BAM files are:
 
 ```{r eval=FALSE}
 setwd("/Users/davetang/tmp/cage")
+library(BSgenome.Hsapiens.UCSC.hg19)
 bam_file <- list.files(".", full.names=T, pattern="*.bam")
 bam_file
 cage_bam <- new("CAGEset", genomeName = "BSgenome.Hsapiens.UCSC.hg19", inputFiles = bam_file, inputFilesType = 'bam', sampleLabels = c('cell_1','cell_2','cytosol_1','cytosol_2','nucleus_1','nucleus_2'))
@@ -352,7 +399,7 @@ width(ir)
 
 ## Statistical significance of feature overlaps
 
-Check out my blog post <http://davetang.org/muse/2014/11/07/using-genometricorr-package/>
+See <http://davetang.org/muse/2014/11/07/using-genometricorr-package/>
 
 ```{r eval=FALSE}
 install.packages('GenometriCorr',
@@ -387,4 +434,9 @@ chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.
 ---
 
 ## Using BEDTools
+
+> * [BEDTools](https://bedtools.readthedocs.org/en/latest/index.html) is a powerful command line toolset for genome arithmetic.
+> * Can be applied:
+> * CAGE tag clustering
+> * CAGE tag cluster annotation
 
