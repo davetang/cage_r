@@ -62,19 +62,6 @@ Ask audience how many plan on analysing CAGE data.
 
 ---
 
-## I will be talking about
-
-> * Cap Analysis Gene Expression (CAGE)
-> * Analysing an expression matrix
-> * Estimating statistical significance of feature overlaps
-> * A CAGE package implemented in R Bioconductor called CAGEr
-
-*** Presenter notes
-
-Hopefully this is enough to last for two hours.
-
----
-
 ## Slidify
 
 > * These slides were made using an R package called [Slidify](http://slidify.org/index.html).
@@ -285,7 +272,7 @@ If you are confused about the second column, have a look at <http://davetang.org
 
 ---
 
-## CAGE defined transcriptional starting sites
+## CAGE defined transcription starting sites
 
 <img src="figure/ctss.png" alt="CTSS" style="width: 700px;"/>
 
@@ -563,9 +550,9 @@ write.table(my_genes, file = "my_genes.tsv", quote = FALSE, sep = "\t")
 
 ---
 
-## Intermission
+## Intermission 2
 
-* Any questions so far?
+* Any questions or comments?
 
 ---
 
@@ -620,21 +607,51 @@ plot(1000:30000, log2(choose(1000:30000, 2)), type='l', xlab="n", ylab="Pairwise
 
 ---
 
-## Jaccard statistic
+## Hierarchical clustering
 
-```
-bedtools jaccard -a cpg.bed -b enhancer.bed 
-intersection    union-intersection  jaccard n_intersections
-1148180 132977386   0.0086344   4969
- 
-bedtools jaccard -a cpg.bed -b promoter.bed 
-intersection    union-intersection  jaccard n_intersections
-15661111    53551816    0.292448    20402
+
+```r
+h <- hclust(dist(t(data_subset)))
+plot(h)
 ```
 
-*** Presenter notes
+<img src="assets/fig/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="450px" />
 
-This is a simply demonstration of feature overlap.
+---
+
+## Distance measure
+
+See <http://davetang.org/muse/2013/08/15/distance-matrix-computation/>.
+
+
+```r
+dist(t(data_subset))
+```
+
+```
+##           lane1     lane2     lane3     lane4     lane5     lane6
+## lane2  4874.042                                                  
+## lane3 11119.401  7469.846                                        
+## lane4 12085.221  8346.255  3337.774                              
+## lane5 27151.883 24875.433 22593.797 22219.560                    
+## lane6 27339.010 25050.592 22690.310 22325.354  3573.774          
+## lane8 12519.767 15546.218 21483.780 22298.779 28479.141 28722.565
+```
+
+---
+
+## Heatmap
+
+See <http://davetang.org/muse/2010/12/06/making-a-heatmap-with-r/>.
+
+
+```r
+#install.packages("gplots")
+library(gplots)
+heatmap.2(as.matrix(my_genes), scale="row", trace="none")
+```
+
+<img src="assets/fig/unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="400px" />
 
 ---
 
@@ -655,8 +672,6 @@ To load the CAGEr package:
 library(CAGEr)
 ```
 
-For more information: <http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/>.
-
 *** Presenter notes
 
 I decided it wasn't feasible to perform a live demo because
@@ -675,7 +690,8 @@ I decided it wasn't feasible to perform a live demo because
 > * Analysis of promoter shape
 > * Expression clustering
 > * Analysis of promoter shifting
-> * Importantly, we can use the CAGEr package to prepare our data for further downstream analyses
+> * Importantly, we can use the CAGEr package to prepare our data for further downstream analyses.
+> * For more information: <http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/>.
 
 *** Presenter notes
 
@@ -683,95 +699,12 @@ Michiel talked about level one and two tag clustering.
 
 ---
 
-## Loading BAM files
+## Some more resources
 
-First we need to set the working directory to where the BAM files are:
-
-
-```r
-setwd("/Users/davetang/tmp/cage")
-library(BSgenome.Hsapiens.UCSC.hg19)
-bam_file <- list.files(".", full.names=T, pattern="*.bam")
-bam_file
-cage_bam <- new("CAGEset", genomeName = "BSgenome.Hsapiens.UCSC.hg19", inputFiles = bam_file, inputFilesType = 'bam', sampleLabels = c('cell_1','cell_2','cytosol_1','cytosol_2','nucleus_1','nucleus_2'))
-cage_bam
-```
-
----
-
-## Tag clustering
-
-
-```r
-getCTSS(cage_bam, mappingQualityThreshold=10)
-normalizeTagCount(cage_bam, method = "simpleTpm")
-clusterCTSS(object = cage_bam, threshold = 1, thresholdIsTpm = TRUE, nrPassThreshold = 1, method = "distclu", maxDist = 20, removeSingletons = TRUE, keepSingletonsAbove = 5, useMulticore = T, nrCores = 6)
-```
-
-*** Presenter notes
-
-This is computationally intensive even for six libraries.
-
----
-
-## Genomic ranges
-
-> * The coordinate system for describing the location of features on a genome is through genomic ranges.
-> * A genomic range indicates the chromosome and position a particular feature is on. For example, HBA1 is on chr16:226650-227521.
-
----
-
-## Genomic ranges in Bioconductor
-
-
-```r
-library(IRanges)
-ir <- IRanges(5,10)
-ir
-```
-
-```
-## IRanges of length 1
-##     start end width
-## [1]     5  10     6
-```
-
-```r
-ir <- IRanges(start=c(3,5,17), end=c(10,8,20))
-ir
-```
-
-```
-## IRanges of length 3
-##     start end width
-## [1]     3  10     8
-## [2]     5   8     4
-## [3]    17  20     4
-```
-
----
-
-## Statistical significance of feature overlaps
-
-See <http://davetang.org/muse/2014/11/07/using-genometricorr-package/>
-
-
-```r
-install.packages('GenometriCorr',
-                 repos='http://genometricorr.sourceforge.net/R/',
-                 type='source')
-
-cpg <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/cpg.bed"),
-                  header=F,
-                  sep="\t",
-                  stringsAsFactors = F)
-
-chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.bed"),
-                  header=F,
-                  sep="\t",
-                  stringsAsFactors = F)
-```
-
-
-
+> * I highly recommend this book called [Bioinformatics Data Skills](http://shop.oreilly.com/product/0636920030157.do). I wrote a [book review](http://davetang.org/muse/2014/04/03/bioinformatics-data-skills/) on it (on my blog of course).
+> * My collection of links to various [introductory material related to bioinformatics](http://davetang.org/muse/primer/).
+> * My collection of links to [resources for learning about R](http://davetang.org/muse/r/).
+> * My collection of links to [courses or course material](http://davetang.org/muse/learn/) related to bioinformatics.
+> * Feel free [to send me an email](mailto:me@davetang.org?subject=Hello from the MODHEP workshop!) any time.
+> * Thank you for your attention!
 

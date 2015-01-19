@@ -99,22 +99,6 @@ pre {
 
 <slide class="" id="slide-3" style="background:;">
   <hgroup>
-    <h2>I will be talking about</h2>
-  </hgroup>
-  <article data-timings="">
-    <ul class = "build incremental">
-<li>Cap Analysis Gene Expression (CAGE)</li>
-<li>Analysing an expression matrix</li>
-<li>Estimating statistical significance of feature overlaps</li>
-<li>A CAGE package implemented in R Bioconductor called CAGEr</li>
-</ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-4" style="background:;">
-  <hgroup>
     <h2>Slidify</h2>
   </hgroup>
   <article data-timings="">
@@ -130,7 +114,7 @@ pre {
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-5" style="background:;">
+<slide class="" id="slide-4" style="background:;">
   <hgroup>
     <h2>Promoter</h2>
   </hgroup>
@@ -145,7 +129,7 @@ pre {
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-6" style="background:;">
+<slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Cap Analysis Gene Expression (CAGE)</h2>
   </hgroup>
@@ -158,7 +142,7 @@ pre {
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-7" style="background:;">
+<slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h2>CAGE</h2>
   </hgroup>
@@ -171,7 +155,7 @@ pre {
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-8" style="background:;">
+<slide class="" id="slide-7" style="background:;">
   <hgroup>
     <h2>Why do we perform CAGE?</h2>
   </hgroup>
@@ -188,7 +172,7 @@ pre {
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-9" style="background:;">
+<slide class="" id="slide-8" style="background:;">
   <hgroup>
     <h2>A typical CAGE analysis pipeline</h2>
   </hgroup>
@@ -208,7 +192,7 @@ pre {
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-10" style="background:;">
+<slide class="" id="slide-9" style="background:;">
   <hgroup>
     <h2>ENCODE CAGE data</h2>
   </hgroup>
@@ -229,7 +213,7 @@ curl -O $path/wgEncodeRikenCageHelas3NucleusPapAlnRep2.bam
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-11" style="background:;">
+<slide class="" id="slide-10" style="background:;">
   <hgroup>
     <h2>Raw sequencing data</h2>
   </hgroup>
@@ -256,7 +240,7 @@ BYZZY\\[\[^^IXMVUUUX\]\\X[ZZ\]``^__^
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-12" style="background:;">
+<slide class="" id="slide-11" style="background:;">
   <hgroup>
     <h2>Tag extraction</h2>
   </hgroup>
@@ -280,7 +264,7 @@ gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | perl -nle &#39;if
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-13" style="background:;">
+<slide class="" id="slide-12" style="background:;">
   <hgroup>
     <h2>Quality control</h2>
   </hgroup>
@@ -306,7 +290,7 @@ BCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefgh
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-14" style="background:;">
+<slide class="" id="slide-13" style="background:;">
   <hgroup>
     <h2>A note about quality scores</h2>
   </hgroup>
@@ -328,7 +312,7 @@ axis(1, 0:40); abline(h=0.9, v=10)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-15" style="background:;">
+<slide class="" id="slide-14" style="background:;">
   <hgroup>
     <h2>Mapping</h2>
   </hgroup>
@@ -346,7 +330,7 @@ axis(1, 0:40); abline(h=0.9, v=10)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-16" style="background:;">
+<slide class="" id="slide-15" style="background:;">
   <hgroup>
     <h2>SAM/BAM</h2>
   </hgroup>
@@ -365,9 +349,9 @@ HWUSI-EAS566_0007:5:63:12130:4370#0|TAG 0   chr1    16446   17  27M *   0   0   
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-17" style="background:;">
+<slide class="" id="slide-16" style="background:;">
   <hgroup>
-    <h2>CAGE defined transcriptional starting sites</h2>
+    <h2>CAGE defined transcription starting sites</h2>
   </hgroup>
   <article data-timings="">
     <p><img src="figure/ctss.png" alt="CTSS" style="width: 700px;"/></p>
@@ -378,7 +362,7 @@ HWUSI-EAS566_0007:5:63:12130:4370#0|TAG 0   chr1    16446   17  27M *   0   0   
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-18" style="background:;">
+<slide class="" id="slide-17" style="background:;">
   <hgroup>
     <h2>Tag cluster annotation</h2>
   </hgroup>
@@ -391,7 +375,7 @@ HWUSI-EAS566_0007:5:63:12130:4370#0|TAG 0   chr1    16446   17  27M *   0   0   
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-19" style="background:;">
+<slide class="" id="slide-18" style="background:;">
   <hgroup>
     <h2>Intermission</h2>
   </hgroup>
@@ -404,7 +388,7 @@ HWUSI-EAS566_0007:5:63:12130:4370#0|TAG 0   chr1    16446   17  27M *   0   0   
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-20" style="background:;">
+<slide class="" id="slide-19" style="background:;">
   <hgroup>
     <h2>A few words on R before we begin</h2>
   </hgroup>
@@ -420,7 +404,7 @@ HWUSI-EAS566_0007:5:63:12130:4370#0|TAG 0   chr1    16446   17  27M *   0   0   
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-21" style="background:;">
+<slide class="" id="slide-20" style="background:;">
   <hgroup>
     <h2>Bioconductor</h2>
   </hgroup>
@@ -436,7 +420,7 @@ HWUSI-EAS566_0007:5:63:12130:4370#0|TAG 0   chr1    16446   17  27M *   0   0   
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-22" style="background:;">
+<slide class="" id="slide-21" style="background:;">
   <hgroup>
     <h2>Loading data into R</h2>
   </hgroup>
@@ -466,7 +450,7 @@ head(data, 5)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-23" style="background:;">
+<slide class="" id="slide-22" style="background:;">
   <hgroup>
     <h2>Working with data frames</h2>
   </hgroup>
@@ -494,7 +478,7 @@ head(data, 5)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-24" style="background:;">
+<slide class="" id="slide-23" style="background:;">
   <hgroup>
     <h2>Removing a column</h2>
   </hgroup>
@@ -522,7 +506,7 @@ dim(data_subset)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-25" style="background:;">
+<slide class="" id="slide-24" style="background:;">
   <hgroup>
     <h2>Naming the rows</h2>
   </hgroup>
@@ -545,7 +529,7 @@ head(data_subset)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-26" style="background:;">
+<slide class="" id="slide-25" style="background:;">
   <hgroup>
     <h2>Plotting the rowSums</h2>
   </hgroup>
@@ -559,7 +543,7 @@ head(data_subset)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-27" style="background:;">
+<slide class="" id="slide-26" style="background:;">
   <hgroup>
     <h2>Independent filtering</h2>
   </hgroup>
@@ -583,7 +567,7 @@ dim(data_subset)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-28" style="background:;">
+<slide class="" id="slide-27" style="background:;">
   <hgroup>
     <h2>Differential expression</h2>
   </hgroup>
@@ -612,7 +596,7 @@ summary(de &lt;- decideTestsDGE(et, p=0.05, adjust=&quot;BH&quot;))
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-29" style="background:;">
+<slide class="" id="slide-28" style="background:;">
   <hgroup>
     <h2>Differentially expressed genes</h2>
   </hgroup>
@@ -628,7 +612,7 @@ abline(h = c(-2, 2), col = &quot;blue&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-30" style="background:;">
+<slide class="" id="slide-29" style="background:;">
   <hgroup>
     <h2>Differentially expression genes</h2>
   </hgroup>
@@ -656,7 +640,7 @@ abline(h = c(-2, 2), col = &quot;blue&quot;)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-31" style="background:;">
+<slide class="" id="slide-30" style="background:;">
   <hgroup>
     <h2>Saving the results</h2>
   </hgroup>
@@ -678,20 +662,20 @@ head(my_genes, 3)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-32" style="background:;">
+<slide class="" id="slide-31" style="background:;">
   <hgroup>
-    <h2>Intermission</h2>
+    <h2>Intermission 2</h2>
   </hgroup>
   <article data-timings="">
     <ul>
-<li>Any questions so far?</li>
+<li>Any questions or comments?</li>
 </ul>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-33" style="background:;">
+<slide class="" id="slide-32" style="background:;">
   <hgroup>
     <h2>Correlation</h2>
   </hgroup>
@@ -706,7 +690,7 @@ head(my_genes, 3)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-34" style="background:;">
+<slide class="" id="slide-33" style="background:;">
   <hgroup>
     <h2>Pairwise comparisons</h2>
   </hgroup>
@@ -734,7 +718,7 @@ choose(3,2)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-35" style="background:;">
+<slide class="" id="slide-34" style="background:;">
   <hgroup>
     <h2>Pairwise comparisons</h2>
   </hgroup>
@@ -748,18 +732,38 @@ choose(3,2)
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-36" style="background:;">
+<slide class="" id="slide-35" style="background:;">
   <hgroup>
-    <h2>Jaccard statistic</h2>
+    <h2>Hierarchical clustering</h2>
   </hgroup>
   <article data-timings="">
-    <pre><code>bedtools jaccard -a cpg.bed -b enhancer.bed 
-intersection    union-intersection  jaccard n_intersections
-1148180 132977386   0.0086344   4969
+    <pre><code class="r">h &lt;- hclust(dist(t(data_subset)))
+plot(h)
+</code></pre>
 
-bedtools jaccard -a cpg.bed -b promoter.bed 
-intersection    union-intersection  jaccard n_intersections
-15661111    53551816    0.292448    20402
+<p><img src="assets/fig/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" width="450px" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-36" style="background:;">
+  <hgroup>
+    <h2>Distance measure</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>See <a href="http://davetang.org/muse/2013/08/15/distance-matrix-computation/">http://davetang.org/muse/2013/08/15/distance-matrix-computation/</a>.</p>
+
+<pre><code class="r">dist(t(data_subset))
+</code></pre>
+
+<pre><code>##           lane1     lane2     lane3     lane4     lane5     lane6
+## lane2  4874.042                                                  
+## lane3 11119.401  7469.846                                        
+## lane4 12085.221  8346.255  3337.774                              
+## lane5 27151.883 24875.433 22593.797 22219.560                    
+## lane6 27339.010 25050.592 22690.310 22325.354  3573.774          
+## lane8 12519.767 15546.218 21483.780 22298.779 28479.141 28722.565
 </code></pre>
 
   </article>
@@ -767,6 +771,24 @@ intersection    union-intersection  jaccard n_intersections
 </slide>
 
 <slide class="" id="slide-37" style="background:;">
+  <hgroup>
+    <h2>Heatmap</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>See <a href="http://davetang.org/muse/2010/12/06/making-a-heatmap-with-r/">http://davetang.org/muse/2010/12/06/making-a-heatmap-with-r/</a>.</p>
+
+<pre><code class="r">#install.packages(&quot;gplots&quot;)
+library(gplots)
+heatmap.2(as.matrix(my_genes), scale=&quot;row&quot;, trace=&quot;none&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-17-1.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" width="400px" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-38" style="background:;">
   <hgroup>
     <h2>CAGEr</h2>
   </hgroup>
@@ -782,13 +804,11 @@ biocLite(&quot;CAGEr&quot;)
 <pre><code class="r">library(CAGEr)
 </code></pre>
 
-<p>For more information: <a href="http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/">http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/</a>.</p>
-
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-38" style="background:;">
+<slide class="" id="slide-39" style="background:;">
   <hgroup>
     <h2>What CAGEr can do</h2>
   </hgroup>
@@ -800,27 +820,9 @@ biocLite(&quot;CAGEr&quot;)
 <li>Analysis of promoter shape</li>
 <li>Expression clustering</li>
 <li>Analysis of promoter shifting</li>
-<li>Importantly, we can use the CAGEr package to prepare our data for further downstream analyses</li>
+<li>Importantly, we can use the CAGEr package to prepare our data for further downstream analyses.</li>
+<li>For more information: <a href="http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/">http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/</a>.</li>
 </ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-39" style="background:;">
-  <hgroup>
-    <h2>Loading BAM files</h2>
-  </hgroup>
-  <article data-timings="">
-    <p>First we need to set the working directory to where the BAM files are:</p>
-
-<pre><code class="r">setwd(&quot;/Users/davetang/tmp/cage&quot;)
-library(BSgenome.Hsapiens.UCSC.hg19)
-bam_file &lt;- list.files(&quot;.&quot;, full.names=T, pattern=&quot;*.bam&quot;)
-bam_file
-cage_bam &lt;- new(&quot;CAGEset&quot;, genomeName = &quot;BSgenome.Hsapiens.UCSC.hg19&quot;, inputFiles = bam_file, inputFilesType = &#39;bam&#39;, sampleLabels = c(&#39;cell_1&#39;,&#39;cell_2&#39;,&#39;cytosol_1&#39;,&#39;cytosol_2&#39;,&#39;nucleus_1&#39;,&#39;nucleus_2&#39;))
-cage_bam
-</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -828,83 +830,17 @@ cage_bam
 
 <slide class="" id="slide-40" style="background:;">
   <hgroup>
-    <h2>Tag clustering</h2>
-  </hgroup>
-  <article data-timings="">
-    <pre><code class="r">getCTSS(cage_bam, mappingQualityThreshold=10)
-normalizeTagCount(cage_bam, method = &quot;simpleTpm&quot;)
-clusterCTSS(object = cage_bam, threshold = 1, thresholdIsTpm = TRUE, nrPassThreshold = 1, method = &quot;distclu&quot;, maxDist = 20, removeSingletons = TRUE, keepSingletonsAbove = 5, useMulticore = T, nrCores = 6)
-</code></pre>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-41" style="background:;">
-  <hgroup>
-    <h2>Genomic ranges</h2>
+    <h2>Some more resources</h2>
   </hgroup>
   <article data-timings="">
     <ul class = "build incremental">
-<li>The coordinate system for describing the location of features on a genome is through genomic ranges.</li>
-<li>A genomic range indicates the chromosome and position a particular feature is on. For example, HBA1 is on chr16:226650-227521.</li>
+<li>I highly recommend this book called <a href="http://shop.oreilly.com/product/0636920030157.do">Bioinformatics Data Skills</a>. I wrote a <a href="http://davetang.org/muse/2014/04/03/bioinformatics-data-skills/">book review</a> on it (on my blog of course).</li>
+<li>My collection of links to various <a href="http://davetang.org/muse/primer/">introductory material related to bioinformatics</a>.</li>
+<li>My collection of links to <a href="http://davetang.org/muse/r/">resources for learning about R</a>.</li>
+<li>My collection of links to <a href="http://davetang.org/muse/learn/">courses or course material</a> related to bioinformatics.</li>
+<li>Feel free <a href="mailto:me@davetang.org?subject=Hello%20from%20the%20MODHEP%20workshop!">to send me an email</a> any time.</li>
+<li>Thank you for your attention!</li>
 </ul>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-42" style="background:;">
-  <hgroup>
-    <h2>Genomic ranges in Bioconductor</h2>
-  </hgroup>
-  <article data-timings="">
-    <pre><code class="r">library(IRanges)
-ir &lt;- IRanges(5,10)
-ir
-</code></pre>
-
-<pre><code>## IRanges of length 1
-##     start end width
-## [1]     5  10     6
-</code></pre>
-
-<pre><code class="r">ir &lt;- IRanges(start=c(3,5,17), end=c(10,8,20))
-ir
-</code></pre>
-
-<pre><code>## IRanges of length 3
-##     start end width
-## [1]     3  10     8
-## [2]     5   8     4
-## [3]    17  20     4
-</code></pre>
-
-  </article>
-  <!-- Presenter Notes -->
-</slide>
-
-<slide class="" id="slide-43" style="background:;">
-  <hgroup>
-    <h2>Statistical significance of feature overlaps</h2>
-  </hgroup>
-  <article data-timings="">
-    <p>See <a href="http://davetang.org/muse/2014/11/07/using-genometricorr-package/">http://davetang.org/muse/2014/11/07/using-genometricorr-package/</a></p>
-
-<pre><code class="r">install.packages(&#39;GenometriCorr&#39;,
-                 repos=&#39;http://genometricorr.sourceforge.net/R/&#39;,
-                 type=&#39;source&#39;)
-
-cpg &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/cpg.bed&quot;),
-                  header=F,
-                  sep=&quot;\t&quot;,
-                  stringsAsFactors = F)
-
-chr &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.bed&quot;),
-                  header=F,
-                  sep=&quot;\t&quot;,
-                  stringsAsFactors = F)
-</code></pre>
 
   </article>
   <!-- Presenter Notes -->
@@ -928,187 +864,187 @@ chr &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/hesc.c
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='I will be talking about'>
+        data-slide=3 title='Slidify'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Slidify'>
+        data-slide=4 title='Promoter'>
          4
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Promoter'>
+        data-slide=5 title='Cap Analysis Gene Expression (CAGE)'>
          5
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=6 title='Cap Analysis Gene Expression (CAGE)'>
+        data-slide=6 title='CAGE'>
          6
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=7 title='CAGE'>
+        data-slide=7 title='Why do we perform CAGE?'>
          7
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=8 title='Why do we perform CAGE?'>
+        data-slide=8 title='A typical CAGE analysis pipeline'>
          8
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=9 title='A typical CAGE analysis pipeline'>
+        data-slide=9 title='ENCODE CAGE data'>
          9
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=10 title='ENCODE CAGE data'>
+        data-slide=10 title='Raw sequencing data'>
          10
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=11 title='Raw sequencing data'>
+        data-slide=11 title='Tag extraction'>
          11
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=12 title='Tag extraction'>
+        data-slide=12 title='Quality control'>
          12
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=13 title='Quality control'>
+        data-slide=13 title='A note about quality scores'>
          13
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=14 title='A note about quality scores'>
+        data-slide=14 title='Mapping'>
          14
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=15 title='Mapping'>
+        data-slide=15 title='SAM/BAM'>
          15
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=16 title='SAM/BAM'>
+        data-slide=16 title='CAGE defined transcription starting sites'>
          16
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=17 title='CAGE defined transcriptional starting sites'>
+        data-slide=17 title='Tag cluster annotation'>
          17
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=18 title='Tag cluster annotation'>
+        data-slide=18 title='Intermission'>
          18
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=19 title='Intermission'>
+        data-slide=19 title='A few words on R before we begin'>
          19
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=20 title='A few words on R before we begin'>
+        data-slide=20 title='Bioconductor'>
          20
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=21 title='Bioconductor'>
+        data-slide=21 title='Loading data into R'>
          21
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=22 title='Loading data into R'>
+        data-slide=22 title='Working with data frames'>
          22
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=23 title='Working with data frames'>
+        data-slide=23 title='Removing a column'>
          23
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=24 title='Removing a column'>
+        data-slide=24 title='Naming the rows'>
          24
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=25 title='Naming the rows'>
+        data-slide=25 title='Plotting the rowSums'>
          25
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=26 title='Plotting the rowSums'>
+        data-slide=26 title='Independent filtering'>
          26
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=27 title='Independent filtering'>
+        data-slide=27 title='Differential expression'>
          27
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=28 title='Differential expression'>
+        data-slide=28 title='Differentially expressed genes'>
          28
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=29 title='Differentially expressed genes'>
+        data-slide=29 title='Differentially expression genes'>
          29
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=30 title='Differentially expression genes'>
+        data-slide=30 title='Saving the results'>
          30
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=31 title='Saving the results'>
+        data-slide=31 title='Intermission 2'>
          31
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=32 title='Intermission'>
+        data-slide=32 title='Correlation'>
          32
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=33 title='Correlation'>
+        data-slide=33 title='Pairwise comparisons'>
          33
       </a>
     </li>
@@ -1120,56 +1056,38 @@ chr &lt;- read.table(url(&quot;http://quinlanlab.cs.virginia.edu/cshl2013/hesc.c
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=35 title='Pairwise comparisons'>
+        data-slide=35 title='Hierarchical clustering'>
          35
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=36 title='Jaccard statistic'>
+        data-slide=36 title='Distance measure'>
          36
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=37 title='CAGEr'>
+        data-slide=37 title='Heatmap'>
          37
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=38 title='What CAGEr can do'>
+        data-slide=38 title='CAGEr'>
          38
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=39 title='Loading BAM files'>
+        data-slide=39 title='What CAGEr can do'>
          39
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=40 title='Tag clustering'>
+        data-slide=40 title='Some more resources'>
          40
-      </a>
-    </li>
-    <li>
-      <a href="#" target="_self" rel='tooltip' 
-        data-slide=41 title='Genomic ranges'>
-         41
-      </a>
-    </li>
-    <li>
-      <a href="#" target="_self" rel='tooltip' 
-        data-slide=42 title='Genomic ranges in Bioconductor'>
-         42
-      </a>
-    </li>
-    <li>
-      <a href="#" target="_self" rel='tooltip' 
-        data-slide=43 title='Statistical significance of feature overlaps'>
-         43
       </a>
     </li>
   </ul>
