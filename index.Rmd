@@ -309,7 +309,7 @@ Intersect/overlap tag clusters to transcript annotations
 
 *** Presenter notes
 
-It's pronounced "vin yet".
+It's pronounced "vin 'yet".
 
 ---
 
@@ -326,6 +326,14 @@ library("DESeq")
 example_file <- system.file ("extra/TagSeqExample.tab", package="DESeq")
 data <- read.delim(example_file, header=T, row.names="gene")
 head(data)
+```
+
+---
+
+## Loading your tag clusters 
+
+```{r, eval=FALSE}
+data <- read.table("my_tag_clusters.tsv", header=T, sep="\t")
 ```
 
 ---
@@ -392,6 +400,7 @@ abline(h = c(-2, 2), col = "blue")
 ## Differentially expression genes
 
 ```{r}
+table(p.adjust(et$table$PValue, method = "BH")<0.05)
 my_list <- topTags(et, n=204)
 ```
 
@@ -516,56 +525,6 @@ This is computationally intensive even for six libraries.
 
 ---
 
-## The need for normalisation
-
-```{r}
-control_1 <- rep(10, 50)
-control_2 <- rep(10, 50)
-patient_1 <- c(rep(20, 25),rep(0,25))
-patient_2 <- c(rep(20, 25),rep(0,25))
-df <- data.frame(c1=control_1, c2=control_2, p1=patient_1, p2=patient_2)
-head(df, 2)
-tail(df, 2)
-```
-
----
-
-## The need for normalisation
-
-```{r echo=FALSE}
-library(gplots)
-heatmap.2(x = as.matrix(df),
-          trace="none",
-          dendrogram="none")
-```
-
----
-
-## Differential expression without normalisation
-
-```{r, message=FALSE}
-library(edgeR)
-group <- c('control','control','patient','patient')
-d <- DGEList(counts=df, group=group)
-d <- estimateCommonDisp(d)
-de <- exactTest(d)
-table(p.adjust(de$table$PValue, method="BH")<0.05)
-```
-
----
-
-## Differential expression with normalisation
-
-```{r, message=FALSE}
-TMM <- calcNormFactors(d, method="TMM")
-TMM$samples
-TMM <- estimateCommonDisp(TMM)
-TMM <- exactTest(TMM)
-table(p.adjust(TMM$table$PValue, method="BH")<0.05)
-```
-
----
-
 ## Genomic ranges
 
 > * The coordinate system for describing the location of features on a genome is through genomic ranges.
@@ -605,19 +564,6 @@ chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.
                   stringsAsFactors = F)
 ```
 
----
-
-## Interpreting expression data
-
-> * Which clustering techniques are useful for interpreting expression data?
-> * A common computational approach is hierarchical clustering
-> * SOMs have a number of features that make them particularly well suited to clustering and analysis of expression patterns.
-
----
-
-## Expression clustering
-
-![](figure/consensusClusters_expression_profiles_50.png)
 
 
 

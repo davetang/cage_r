@@ -319,7 +319,7 @@ Intersect/overlap tag clusters to transcript annotations
 
 *** Presenter notes
 
-It's pronounced "vin yet".
+It's pronounced "vin 'yet".
 
 ---
 
@@ -348,6 +348,15 @@ head(data)
 ## Gene_00004  75  84 241 149 271 257
 ## Gene_00005  10  16   4   0   4  10
 ## Gene_00006 129 126 451 223 243 149
+```
+
+---
+
+## Loading your tag clusters 
+
+
+```r
+data <- read.table("my_tag_clusters.tsv", header=T, sep="\t")
 ```
 
 ---
@@ -389,7 +398,7 @@ head(rowSums(data))
 plot(density(log2(rowSums(data))), xlab="Gene expression (log2)")
 ```
 
-![plot of chunk unnamed-chunk-5](assets/fig/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-6](assets/fig/unnamed-chunk-6-1.png) 
 
 ---
 
@@ -454,12 +463,22 @@ plotSmear(et, de.tags=detags)
 abline(h = c(-2, 2), col = "blue")
 ```
 
-<img src="assets/fig/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" width="450px" />
+<img src="assets/fig/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" width="450px" />
 
 ---
 
 ## Differentially expression genes
 
+
+```r
+table(p.adjust(et$table$PValue, method = "BH")<0.05)
+```
+
+```
+## 
+## FALSE  TRUE 
+## 13870   204
+```
 
 ```r
 my_list <- topTags(et, n=204)
@@ -514,7 +533,7 @@ choose(30000, 2)
 plot(1000:30000, log2(choose(1000:30000, 2)), type='l', xlab="n", ylab="Pairwise comparisons (log2)")
 ```
 
-![plot of chunk unnamed-chunk-12](assets/fig/unnamed-chunk-12-1.png) 
+![plot of chunk unnamed-chunk-13](assets/fig/unnamed-chunk-13-1.png) 
 
 ---
 
@@ -612,92 +631,6 @@ This is computationally intensive even for six libraries.
 
 ---
 
-## The need for normalisation
-
-
-```r
-control_1 <- rep(10, 50)
-control_2 <- rep(10, 50)
-patient_1 <- c(rep(20, 25),rep(0,25))
-patient_2 <- c(rep(20, 25),rep(0,25))
-df <- data.frame(c1=control_1, c2=control_2, p1=patient_1, p2=patient_2)
-head(df, 2)
-```
-
-```
-##   c1 c2 p1 p2
-## 1 10 10 20 20
-## 2 10 10 20 20
-```
-
-```r
-tail(df, 2)
-```
-
-```
-##    c1 c2 p1 p2
-## 49 10 10  0  0
-## 50 10 10  0  0
-```
-
----
-
-## The need for normalisation
-
-![plot of chunk unnamed-chunk-18](assets/fig/unnamed-chunk-18-1.png) 
-
----
-
-## Differential expression without normalisation
-
-
-```r
-library(edgeR)
-group <- c('control','control','patient','patient')
-d <- DGEList(counts=df, group=group)
-d <- estimateCommonDisp(d)
-de <- exactTest(d)
-table(p.adjust(de$table$PValue, method="BH")<0.05)
-```
-
-```
-## 
-## TRUE 
-##   50
-```
-
----
-
-## Differential expression with normalisation
-
-
-```r
-TMM <- calcNormFactors(d, method="TMM")
-TMM$samples
-```
-
-```
-##      group lib.size norm.factors
-## c1 control      500    0.7071068
-## c2 control      500    0.7071068
-## p1 patient      500    1.4142136
-## p2 patient      500    1.4142136
-```
-
-```r
-TMM <- estimateCommonDisp(TMM)
-TMM <- exactTest(TMM)
-table(p.adjust(TMM$table$PValue, method="BH")<0.05)
-```
-
-```
-## 
-## FALSE  TRUE 
-##    25    25
-```
-
----
-
 ## Genomic ranges
 
 > * The coordinate system for describing the location of features on a genome is through genomic ranges.
@@ -756,19 +689,6 @@ chr <- read.table(url("http://quinlanlab.cs.virginia.edu/cshl2013/hesc.chromHmm.
                   stringsAsFactors = F)
 ```
 
----
-
-## Interpreting expression data
-
-> * Which clustering techniques are useful for interpreting expression data?
-> * A common computational approach is hierarchical clustering
-> * SOMs have a number of features that make them particularly well suited to clustering and analysis of expression patterns.
-
----
-
-## Expression clustering
-
-![](figure/consensusClusters_expression_profiles_50.png)
 
 
 
