@@ -175,6 +175,8 @@ gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | perl -nle 'if (($
 
 The barcode for this library was TAGC.
 
+<http://hannonlab.cshl.edu/fastx_toolkit/>
+
 ---
 
 ## Quality control
@@ -196,6 +198,22 @@ BCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefgh
 </pre>
 
 People define different criteria to remove reads, e.g. if there are 10 base calls that have a quality less than 10.
+
+---
+
+## Quality scores
+
+
+```r
+p <- function(q){
+  return(10^{-q/10})
+}
+plot(3:37, 1-p(3:37), xaxt='n', type='l', xlab='Quality score', ylab='Probability correct')
+axis(1, 0:40)
+abline(h=0.9, v=10)
+```
+
+<img src="assets/fig/unnamed-chunk-1-1.png" title="plot of chunk unnamed-chunk-1" alt="plot of chunk unnamed-chunk-1" width="350px" />
 
 ---
 
@@ -222,11 +240,18 @@ HWUSI-EAS566_0007:5:39:15300:6753#0|TAG	16	chr1	16580	1	27M	*	0	0	AAGGTGGCCTCAAA
 
 ---
 
+## CAGE defined transcriptional starting sites
+
+> * These represent the start of transcripts
+
+---
+
 ## A few words on R
 
 > * I have been using R on and off for a couple of years and it took a while to get used to.
 > * Honest confession: I personally believe that I'm not very good with R (I keep a lot of documentation to make up for this).
 > * You should learn it because a lot of the analysis packages for genomics data are provided via Bioconductor.
+> * Data loaded into R is stored into memory.
 
 ---
 
@@ -236,52 +261,6 @@ HWUSI-EAS566_0007:5:39:15300:6753#0|TAG	16	chr1	16580	1	27M	*	0	0	AAGGTGGCCTCAAA
 > * Provides state of the art software to analyse various genomic datasets.
 > * Has well written guides for biologists!
 > * To learn more take a look at these [courses](http://bioconductor.org/help/course-materials/), which are provided by the Bioconductor team.
-
----
-
-## Some basics in R
-
-
-```r
-class(iris)
-```
-
-```
-## [1] "data.frame"
-```
-
-```r
-head(iris)
-```
-
-```
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 1          5.1         3.5          1.4         0.2  setosa
-## 2          4.9         3.0          1.4         0.2  setosa
-## 3          4.7         3.2          1.3         0.2  setosa
-## 4          4.6         3.1          1.5         0.2  setosa
-## 5          5.0         3.6          1.4         0.2  setosa
-## 6          5.4         3.9          1.7         0.4  setosa
-```
-
----
-
-## Subsetting
-
-
-```r
-head(subset(iris, Sepal.Width > 3.5))
-```
-
-```
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-## 5           5.0         3.6          1.4         0.2  setosa
-## 6           5.4         3.9          1.7         0.4  setosa
-## 11          5.4         3.7          1.5         0.2  setosa
-## 15          5.8         4.0          1.2         0.2  setosa
-## 16          5.7         4.4          1.5         0.4  setosa
-## 17          5.4         3.9          1.3         0.4  setosa
-```
 
 ---
 
@@ -411,7 +390,7 @@ tail(df, 2)
 
 ## The need for normalisation
 
-![plot of chunk unnamed-chunk-11](assets/fig/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-10](assets/fig/unnamed-chunk-10-1.png) 
 
 ---
 
@@ -488,27 +467,16 @@ ir
 ```
 
 ```r
-start(ir)
+ir <- IRanges(start=c(3,5,17), end=c(10,8,20))
+ir
 ```
 
 ```
-## [1] 5
-```
-
-```r
-end(ir)
-```
-
-```
-## [1] 10
-```
-
-```r
-width(ir)
-```
-
-```
-## [1] 6
+## IRanges of length 3
+##     start end width
+## [1]     3  10     8
+## [2]     5   8     4
+## [3]    17  20     4
 ```
 
 ---
@@ -554,16 +522,54 @@ Source: adpated from <http://www.ncbi.nlm.nih.gov/pubmed/20628352>.
 
 ---
 
+## Some basics in R
+
+
+```r
+class(iris)
+```
+
+```
+## [1] "data.frame"
+```
+
+```r
+head(iris)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+---
+
+## Working with data frames
+
+
+```r
+head(subset(iris, Sepal.Width > 3.5))
+```
+
+```
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 5           5.0         3.6          1.4         0.2  setosa
+## 6           5.4         3.9          1.7         0.4  setosa
+## 11          5.4         3.7          1.5         0.2  setosa
+## 15          5.8         4.0          1.2         0.2  setosa
+## 16          5.7         4.4          1.5         0.4  setosa
+## 17          5.4         3.9          1.3         0.4  setosa
+```
+
+---
+
 ## Expression clustering
 
 ![](figure/consensusClusters_expression_profiles_50.png)
 
----
-
-## Using BEDTools
-
-> * [BEDTools](https://bedtools.readthedocs.org/en/latest/index.html) is a powerful command line toolset for genome arithmetic.
-> * Can be applied:
-> * CAGE tag clustering
-> * CAGE tag cluster annotation
 
