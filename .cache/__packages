@@ -14,3 +14,7 @@ FANTOM3and4CAGE
 gplots
 limma
 edgeR
+Biobase
+locfit
+lattice
+DESeq
