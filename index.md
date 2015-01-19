@@ -42,13 +42,17 @@ pre {
 > * I also maintain a [blog](http://davetang.org/muse), where I write about bioinformatics.
 > * I'm here to show you how to analyse CAGE data using R in Japan.
 
+*** Presenter notes
+
+I have various blog posts explaining the concepts that I will discuss in this presentation.
+
 ---
 
 ## About this presentation
 
 > * I had a lot of difficulty deciding what to present in this talk.
 > * I started off extremely ambiguous and believed that it is possible to show you how to analyse CAGE data in under two hours.
-> * I realised that this isn't possible.
+> * I realised that this isn't possible because there is too much to cover.
 > * I finally decided that this presentation will be about the concepts of CAGE analysis and I will provide links on each slide for those who want to learn more.
 
 *** Presenter notes
@@ -64,6 +68,10 @@ Ask audience how many plan to analyse CAGE data.
 > * Estimating statistical significance of feature overlaps
 > * Data normalisation and differential expression analysis
 > * Data visualistion of CAGE data in R
+
+*** Presenter notes
+
+Hopefully this is enough to last for two hours.
 
 ---
 
@@ -124,6 +132,10 @@ Image source: me.
 > * Study promoter structure and usage
 > * Discover new promoters
 > * Discover regulatory elements
+
+*** Presenter notes
+
+Piero and Erik showed various case studies of CAGE.
 
 ---
 
@@ -253,6 +265,10 @@ HWUSI-EAS566_0007:5:39:15300:6753#0|TAG	16	chr1	16580	1	27M	*	0	0	AAGGTGGCCTCAAA
 > * These represent the start of transcripts
 > * Tally up the CTSSs across assays
 
+*** Presenter notes
+
+This was briefly shown by Kawaji-san.
+
 ---
 
 ## Tag cluster annotation
@@ -260,9 +276,9 @@ HWUSI-EAS566_0007:5:39:15300:6753#0|TAG	16	chr1	16580	1	27M	*	0	0	AAGGTGGCCTCAAA
 > * Annotation by overlapping or intersecting with known features
 > * BEDTools can achieve this
 
-*** pnotes
+*** Presenter notes
 
-Feature overlap
+Michiel will talk about BEDTools.
 
 ---
 
@@ -277,6 +293,10 @@ bedtools jaccard -a cpg.bed -b promoter.bed
 intersection    union-intersection  jaccard n_intersections
 15661111    53551816    0.292448    20402
 ```
+
+*** Presenter notes
+
+This is a simply demonstration of feature overlap.
 
 ---
 
@@ -331,6 +351,14 @@ library(CAGEr)
 
 For more information: <http://davetang.org/muse/2013/04/16/cage-analysis-using-the-r-bioconductor-package-cage/>.
 
+*** Presenter notes
+
+I decided it wasn't feasible to perform a live demo because
+
+- CAGE data is huge
+- Loading the data is slow and computationally intensive
+- The vignette provides all the details
+
 ---
 
 ## What CAGEr can do
@@ -342,6 +370,10 @@ For more information: <http://davetang.org/muse/2013/04/16/cage-analysis-using-t
 > * Expression clustering
 > * Analysis of promoter shifting
 > * Importantly, we can use the CAGEr package to prepare our data for further downstream analyses
+
+*** Presenter notes
+
+Michiel talked about level one and two tag clustering.
 
 ---
 
@@ -369,6 +401,10 @@ getCTSS(cage_bam, mappingQualityThreshold=10)
 normalizeTagCount(cage_bam, method = "simpleTpm")
 clusterCTSS(object = cage_bam, threshold = 1, thresholdIsTpm = TRUE, nrPassThreshold = 1, method = "distclu", maxDist = 20, removeSingletons = TRUE, keepSingletonsAbove = 5, useMulticore = T, nrCores = 6)
 ```
+
+*** Presenter notes
+
+This is computationally intensive even for six libraries.
 
 ---
 
@@ -641,10 +677,29 @@ head(subset(iris, Sepal.Width > 3.5))
 ## 17          5.4         3.9          1.3         0.4  setosa
 ```
 
+*** Presenter notes
+
+Expression data is typically stored in a spreadsheet like format.
+
 ---
 
 ## Expression clustering
 
 ![](figure/consensusClusters_expression_profiles_50.png)
+
+---
+
+## Heatmaps
+
+---
+
+## Hierarchical clustering
+
+---
+
+## Distance measures
+
+---
+
 
 
