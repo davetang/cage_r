@@ -51,6 +51,10 @@ pre {
 > * I realised that this isn't possible.
 > * I finally decided that this presentation will be about the concepts of CAGE analysis and I will provide links on each slide for those who want to learn more.
 
+*** Presenter notes
+
+Ask audience how many plan to analyse CAGE data.
+
 ---
 
 ## I will be talking about
@@ -78,6 +82,10 @@ pre {
 <img src="figure/25_1_2.jpg" alt="Eukaryotic promoter" style="width: 1000px;"/>
 
 Source: <http://www.nature.com/scitable/topicpage/dna-transcription-426>
+
+*** Presenter notes
+
+Promoter regions also contain various transcription factor binding sites
 
 ---
 
@@ -243,6 +251,32 @@ HWUSI-EAS566_0007:5:39:15300:6753#0|TAG	16	chr1	16580	1	27M	*	0	0	AAGGTGGCCTCAAA
 ## CAGE defined transcriptional starting sites
 
 > * These represent the start of transcripts
+> * Tally up the CTSSs across assays
+
+---
+
+## Tag cluster annotation
+
+> * Annotation by overlapping or intersecting with known features
+> * BEDTools can achieve this
+
+*** pnotes
+
+Feature overlap
+
+---
+
+## Jaccard statistic
+
+```
+bedtools jaccard -a cpg.bed -b enhancer.bed 
+intersection    union-intersection  jaccard n_intersections
+1148180 132977386   0.0086344   4969
+ 
+bedtools jaccard -a cpg.bed -b promoter.bed 
+intersection    union-intersection  jaccard n_intersections
+15661111    53551816    0.292448    20402
+```
 
 ---
 
@@ -519,6 +553,47 @@ See <http://davetang.org/muse/2012/01/31/creating-a-correlation-matrix-with-r/>
 <img src="figure/coexpression.png" alt="Co-expression" style="width: 700px;"/>
 
 Source: adpated from <http://www.ncbi.nlm.nih.gov/pubmed/20628352>.
+
+---
+
+## Pairwise comparisons
+
+
+```r
+#a vs. b, a vs. c, b vs. c
+choose(3,2)
+```
+
+```
+## [1] 3
+```
+
+```r
+choose(1000, 2)
+```
+
+```
+## [1] 499500
+```
+
+```r
+choose(30000, 2)
+```
+
+```
+## [1] 449985000
+```
+
+---
+
+## Pairwise comparisons
+
+
+```r
+plot(1000:30000, log2(choose(1000:30000, 2)), type='l', xlab="n", ylab="Pairwise comparisons (log2)")
+```
+
+![plot of chunk unnamed-chunk-16](assets/fig/unnamed-chunk-16-1.png) 
 
 ---
 
