@@ -184,14 +184,14 @@ NAGCAGCAGGGGAGAGTGTCATGGAGGCCTACGAGC
 +HWUSI-EAS566_0007:5:1:965:4705#0/1
 BYZZY\\[\[^^IXMVUUUX\]\\X[ZZ\]``^__^
 
-gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | perl -nle 'if (($. - 2) % 4 == 0){ print substr($_,0,4)}' | sort | uniq -c | sort -k1,1rn | head -4
-25498964 TAGC
-288819 TATC
-154406 TCGT
-117149 CAGC
+gunzip -c wgEncodeRikenCageHelas3CellPapRawDataRep1.fastq.gz | perl -nle 'if (($. - 2) % 4 == 0){ print substr($_,0,3)}' | sort | uniq -c | sort -k1,1rn | head -4
+25596580 TAG
+300377 TAT
+158391 TCG
+142412 CAG
 ```
 
-The barcode for this library was TAGC. The <http://hannonlab.cshl.edu/fastx_toolkit/> contains tools for tag extraction. See also <http://tagdust.sourceforge.net/>, which uses Hidden Markov Models for tag extraction (and performs quality control steps).
+The barcode for this library was TAG. The <http://hannonlab.cshl.edu/fastx_toolkit/> contains tools for tag extraction. See also <http://tagdust.sourceforge.net/>, which uses Hidden Markov Models for tag extraction (and performs quality control steps).
 
 *** Presenter notes
 
